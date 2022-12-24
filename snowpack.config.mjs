@@ -2,7 +2,7 @@
 export default {
   mount: {
     public: { url: '/' },
-    src: { url: '/dist' },
+    src: { url: '/docs' },
   },
   plugins: [
     '@snowpack/plugin-react-refresh',
