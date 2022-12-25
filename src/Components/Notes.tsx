@@ -127,18 +127,20 @@ function Notes(props: NotesProps) {
           ? tasks.map((task: Task, i: number) => {
               return (
                 <div className="single-note-wrapper" key={i}>
-                  <div
-                    className="single-note"
-                    
-                    
-                  >
+                  <div className="single-note">
                     <div className="fa-reg-circle-wrapper">
-                      <FaRegCircle className="fa-reg-circle" onClick={() => deleteTask(task.id)}/>
+                      <FaRegCircle
+                        className="fa-reg-circle"
+                        onClick={() => deleteTask(task.id)}
+                      />
                     </div>
                     <div className="single-note-content">{task.content}</div>
                   </div>
                   <div className="single-note-delete-icon-wrapper">
-                    <AiOutlineDelete className="single-note-delete-icon" onClick={() => deleteTask(task.id)}/>
+                    <AiOutlineDelete
+                      className="single-note-delete-icon"
+                      onClick={() => deleteTask(task.id)}
+                    />
                   </div>
                 </div>
               )

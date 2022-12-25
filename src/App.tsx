@@ -29,7 +29,7 @@ function App() {
   const [selectedFolder, setSelectedFolder] = useState("Quick Notes")
   const [showNav, setShowNav] = useState(true) // user can click the sandwhich button to show/hide the navbar
 
-  // when the screen becomes larger than 700px, show the nav bar
+  // when the screen becomes larger than 700px, show the nav (folder select) bar
   const showNav2 = useMediaQuery({
     minWidth: 700
   })
