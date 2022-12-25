@@ -39,6 +39,7 @@ button {
 
 input {
   /* border-radius: 10px; */
+  font-size: 12pt;
 
   padding: 5px;
 }
@@ -49,4 +50,11 @@ input {
 .title-nav-icon {
   display: block;
 }
+}
+
+@media screen and (min-width: 900px) {
+  .notes-wrapper {
+    width: 900px;
+  }
+  
 }

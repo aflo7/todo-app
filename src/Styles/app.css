@@ -32,7 +32,8 @@ user-select: none; /* Standard */
 }
 
 .title-nav-icon {
-  font-size: 20pt;
+  padding-top: 8px;
+  font-size: 22pt;
   color: white;
   background-color: var(--navy);
   display: none;
