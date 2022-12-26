@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from "react"
 
 interface Task {
   content: string
@@ -20,17 +20,26 @@ const defaultStore: Folder[] = [
 const useStore = () => {
   const [store, setStore] = useState<Folder[]>([])
   const [selectedFolder, setSelectedFolder] = useState("Quick Notes")
-
+  const [currTasks, setCurrTasks] = useState<Task[]>([])
 
   useEffect(() => {
+    checkIfStoreExists()
+  }, [])
+
+  // whenever the store changes in state, change the store in localStorage
+  useEffect(() => {
+    localStorage.setItem("Store", JSON.stringify(store))
+  }, [store])
+
+  function checkIfStoreExists() {
     const localStore = localStorage.getItem("Store")
-    if (localStore == null) {
+    if (localStore) {
+      setStore(JSON.parse(localStore))
+    } else {
       localStorage.setItem("Store", JSON.stringify(defaultStore))
       setStore(defaultStore)
-    } else {
-      setStore(JSON.parse(localStore))
     }
-  }, [])
+  }
 
   function addTask(e: React.FormEvent<HTMLFormElement>, content: string) {
     e.preventDefault()
@@ -39,14 +48,13 @@ const useStore = () => {
       id: crypto.randomUUID()
     }
 
-    const tempStore = [...store]
-    const folder = tempStore.find((folder) => folder.name === selectedFolder)
-    if (folder === undefined) {
-      return
+    const currStore = [...store]
+    const folder = currStore.find((folder) => folder.name === selectedFolder)
+    if (folder) {
+      folder.tasks.push(newTask)
+      folder.count += 1
+      setStore(currStore)
     }
-    folder.tasks.push(newTask)
-    folder.count += 1
-    setStore(tempStore)
   }
 
   function createNewFolder(
@@ -55,8 +63,8 @@ const useStore = () => {
   ) {
     e.preventDefault()
     const currStore = [...store]
-    const exists = currStore.find((store) => store.name === folderName)
-    if (exists !== undefined) {
+    const foundFolder = currStore.find((folder) => folder.name === folderName)
+    if (foundFolder !== undefined) {
       alert("Folder already exists")
       return
     }
@@ -67,30 +75,42 @@ const useStore = () => {
 
   function deleteTask(id: string) {
     const currStore = [...store]
-    const folder = currStore.find((folder) => folder.name === selectedFolder)
-    if (folder === undefined) {
-      return
-    }
-
-    // find task with specific id, and delete it
-    for (let i = 0; i < folder.tasks.length; i++) {
-      if (folder.tasks[i].id === id) {
-        folder.tasks.splice(i, 1)
-        break
+    const foundFolder = currStore.find(
+      (folder) => folder.name === selectedFolder
+    )
+    if (foundFolder) {
+      for (let i = 0; i < foundFolder.tasks.length; i++) {
+        if (foundFolder.tasks[i].id === id) {
+          foundFolder.tasks.splice(i, 1)
+          break
+        }
       }
+      setStore(currStore)
     }
-    setStore(currStore)
   }
-
-  // whenever the store changes in state, change the store in localStorage
-  useEffect(() => {
-    localStorage.setItem("Store", JSON.stringify(store))
-  }, [store])
 
   function handleSelectedFolderChange(folderName: string) {
     setSelectedFolder(folderName)
   }
-  return {store, selectedFolder, addTask, createNewFolder, deleteTask, handleSelectedFolderChange}
+
+  useEffect(() => {
+    const foundFolder = store.find((folder) => folder.name === selectedFolder)
+    if (foundFolder === undefined) {
+      setCurrTasks([])
+      return
+    }
+    setCurrTasks(foundFolder.tasks)
+  }, [selectedFolder, store])
+
+  return {
+    store,
+    selectedFolder,
+    addTask,
+    createNewFolder,
+    deleteTask,
+    handleSelectedFolderChange,
+    currTasks
+  }
 }
 
 export default useStore

@@ -21,25 +21,18 @@ interface NotesProps {
     e: React.FormEvent<HTMLFormElement>,
     folderName: string
   ) => void
-  deleteTask: (id: string) => void
+  deleteTask: (id: string) => void,
+  currTasks: Task[]
 }
 
 function Notes(props: NotesProps) {
-  const { selectedFolder, addTask, store, createNewFolder, deleteTask } = props
+  const { selectedFolder, addTask, store, createNewFolder, deleteTask,currTasks } = props
   const [content, setContent] = useState("")
-  const [tasks, setTasks] = useState<Task[]>([])
   const [folderName, setFolderName] = useState("")
   const [showNewTaskForm, setShowNewTaskForm] = useState(false)
   const [showAddTaskBtn, setShowAddTaskBtn] = useState(true)
 
-  useEffect(() => {
-    for (let i = 0; i < store.length; i++) {
-      if (store[i].name === selectedFolder) {
-        setTasks(store[i].tasks)
-        break
-      }
-    }
-  }, [selectedFolder, store])
+  
 
   return (
     <div className="notes-wrapper">
@@ -123,8 +116,8 @@ function Notes(props: NotesProps) {
             {selectedFolder !== "New Folder" ? selectedFolder : null}
           </strong>
         </div>
-        {selectedFolder !== "New Folder" && tasks
-          ? tasks.map((task: Task, i: number) => {
+        {selectedFolder !== "New Folder" && currTasks
+          ? currTasks.map((task: Task, i: number) => {
               return (
                 <div className="single-note-wrapper" key={i}>
                   <div className="single-note">

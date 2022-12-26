@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react"
-// import logo from './logo.svg';
+import React, { useState } from "react"
 import "./Styles/app.css"
 import Nav from "./Components/Nav.jsx"
 import Notes from "./Components/Notes.jsx"
@@ -26,7 +25,8 @@ function App() {
     addTask,
     createNewFolder,
     deleteTask,
-    handleSelectedFolderChange
+    handleSelectedFolderChange,
+    currTasks
   } = useStore()
   // const [store, setStore] = useState<Folder[]>([])
   // const [selectedFolder, setSelectedFolder] = useState("Quick Notes")
@@ -67,6 +67,7 @@ function App() {
           addTask={addTask}
           createNewFolder={createNewFolder}
           deleteTask={deleteTask}
+          currTasks={currTasks}
         />
       </div>
     </div>

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 import "./Styles/notes.css";
+import "./Styles/media.css"
 
 ReactDOM.render(
   <React.StrictMode>
